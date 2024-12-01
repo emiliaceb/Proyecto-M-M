@@ -1,0 +1,79 @@
+/* Estilos globales */
+html, body {
+    height: 100%; /* Asegura que el body y el html ocupen toda la altura */
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Navbar */
+nav {
+    background-color: #2c3e50;
+    padding: 30px 20px;
+    text-align: right;
+}
+
+/* Estilos de los enlaces en el navbar */
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Main content */
+main {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+
+}
+
+/* Título en el contenido principal */
+main h1 {
+    text-align: center;
+    font-size: 95px;
+    color: #2c3e50;
+}
+
+/* Footer */
+footer {
+    color: rgb(0, 0, 0);
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Asegura que el body ocupe todo el espacio de la pantalla sin scroll */
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Asegura que el body ocupe el 100% de la altura */
+}
+
+/* Establece que el main ocupe el espacio restante */
+main {
+    flex: 1 0 auto; /* Deja que el main ocupe el espacio disponible */
+}
+
+/* Evita scroll */
+html, body {
+    overflow: hidden; /* Evita el scroll */
+}
