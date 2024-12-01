@@ -31,14 +31,23 @@ function calculateTDM() {
     const frameDuration = bitsPerFrame / sourceRate; // Duración de la trama en segundos
     const transmissionRate = bitsPerFrame / frameDuration; // Tasa de transmisión
 
+    // Bits eficientes (datos útiles sin incluir los bits de sincronización)
+    const efficientBits = numChannels * bitsPerSource;
+
+    // Eficiencia del sistema
+    const efficiency = (efficientBits / bitsPerFrame) * 100; // En porcentaje
+
     // Mostrar resultados
     document.getElementById("tdmBitsPerFrame").innerText = bitsPerFrame.toFixed(2);
     document.getElementById("tdmFrameDuration").innerText = frameDuration.toFixed(6); // Usar 6 decimales para mayor precisión
     document.getElementById("tdmTransmissionRate").innerText = transmissionRate.toFixed(2);
+    document.getElementById("tdmEfficientBits").innerText = efficientBits.toFixed(2);
+    document.getElementById("tdmEfficiency").innerText = efficiency.toFixed(2) + " %";
 
     // Mostrar el bloque de resultados
     document.getElementById("tdmResult").classList.remove("hidden");
 }
+
 
 // Función para calcular FDM
 function calculateFDM() {
