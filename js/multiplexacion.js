@@ -11,7 +11,7 @@ function showForm() {
 }
 
 // Función para calcular TDM
-function calculateTDM() {
+function calculateTDM() { 
     // Obteniendo los valores del formulario
     const numChannels = parseInt(document.getElementById("tdmNumChannels").value);
     const sourceRate = parseInt(document.getElementById("tdmSourceRate").value);
@@ -37,18 +37,30 @@ function calculateTDM() {
     // Eficiencia del sistema
     const efficiency = (efficientBits / bitsPerFrame) * 100; // En porcentaje
 
+    // Cálculo de la tasa de trama
+    const frameRate = sourceRate / bitsPerFrame; // Tasa de trama: tasa de bits / bits por trama
+
+    // Convertir duración de la trama a milisegundos o microsegundos
+    let frameDurationFormatted;
+    if (frameDuration >= 0.001) {
+        frameDurationFormatted = `${Math.round(frameDuration * 1000)} milisegundos`; // Convertir a milisegundos
+    } else {
+        frameDurationFormatted = `${Math.round(frameDuration * 1000000)} microsegundos`; // Convertir a microsegundos
+    }
+
     // Mostrar resultados
-    document.getElementById("tdmBitsPerFrame").innerText = bitsPerFrame.toFixed(2);
-    document.getElementById("tdmFrameDuration").innerText = frameDuration.toFixed(6); // Usar 6 decimales para mayor precisión
+    document.getElementById("tdmBitsPerFrame").innerText = Math.round(bitsPerFrame); // Redondear a número entero
+    document.getElementById("tdmFrameDuration").innerText = frameDurationFormatted; // Mostrar la duración en milisegundos o microsegundos
     document.getElementById("tdmTransmissionRate").innerText = transmissionRate.toFixed(2);
-    document.getElementById("tdmEfficientBits").innerText = efficientBits.toFixed(2);
+    document.getElementById("tdmEfficientBits").innerText = Math.round(efficientBits); // Redondear a número entero
     document.getElementById("tdmEfficiency").innerText = efficiency.toFixed(2) + " %";
+    document.getElementById("tdmFrameRate").innerText = Math.round(frameRate); // Mostrar la tasa de tramas
 
     // Mostrar el bloque de resultados
     document.getElementById("tdmResult").classList.remove("hidden");
 }
 
-
+   
 // Función para calcular FDM
 function calculateFDM() {
     const channelBandwidth = parseFloat(document.getElementById("fdmChannelBandwidth").value);
