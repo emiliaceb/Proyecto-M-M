@@ -132,7 +132,9 @@ button:hover {
 canvas {
     display: block;
     margin: 20px auto;
-    background: #ffffff;
+    width: 100%; /* Responsivo */
+    height: auto; /* Mantener proporciones */
+    max-width: 1400px;
     border: 1px solid #ccc;
     border-radius: 8px;
 }
@@ -144,5 +146,3 @@ canvas {
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
-

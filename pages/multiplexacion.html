@@ -1,244 +1,338 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calculadora de Multiplexación</title>
-    <link rel="stylesheet" href="../css/multiplexacion.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/multiplexacion.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
     <nav>
-        <a href="../index.html">Inicio</a>
-        <a href="modulacion.html">Modulacion</a>
-        <a href=".//pages/multiplexacion.html">Multiplexacion</a>
+      <a href="../index.html">Inicio</a>
+      <a href="modulacion.html">Modulacion</a>
+      <a href=".//pages/multiplexacion.html">Multiplexacion</a>
     </nav>
     <main>
-        <div class="container-fluid d-flex row justify-content-center">
-            <div class="w-50">
-                <h1>Calculadora de Multiplexación</h1>
-                <label for="multiplexType">Selecciona el tipo de multiplexación:</label>
-                <select id="multiplexType" onchange="showForm()">
-                    <option value="" selected disabled>Seleccionar...</option>
-                    <option value="tdm">TDM (Multiplexación por División de Tiempo)</option>
-                    <option value="fdm">FDM (Multiplexación por División de Frecuencia)</option>
-                </select>
-            </div>
-    
-            <!-- Formulario TDM -->
-            <div id="tdmForm" class="hidden">
-                <h2>Multiplexación TDM Sincrónica</h2>
-                <label for="tdmNumChannels">Cantidad de Canales:</label>
-                <input type="number" id="tdmNumChannels" min="1">
-    
-                <label for="tdmSourceRate">Cantidad que Genera Cada Fuente (bps):</label>
-                <input type="number" id="tdmSourceRate" min="1">
-    
-                <label for="tdmInterleaving">Tipo de Entrelazado:</label>
-                <select id="tdmInterleaving" onchange="toggleInterleavingBitsInput()">
-                    <option value="bit">A Nivel de Bit</option>
-                    <option value="byte">A Nivel de Byte</option>
-                </select>
-    
-                <!-- Campo extra para los bits de sincronismo a nivel de bit -->
-                <div id="syncBitsContainer" class="hidden">
-                    <label for="tdmSyncBits">Cantidad de Bits de Sincronismo:</label>
-                    <input type="number" id="tdmSyncBits" min="1" value="1">
-                </div>
-    
-                <!-- Campo extra para los bits por fuente a nivel de bit -->
-                <div id="bitsPerSourceContainer" class="hidden">
-                    <label for="tdmBitsPerSource">Cantidad de Bits por Fuente (Nivel de Bit):</label>
-                    <input type="number" id="tdmBitsPerSource" min="1" value="1">
-                </div>
-    
-                <label for="tdmSyncType">Tipo de Sincronismo:</label>
-                <select id="tdmSyncType" onchange="toggleSyncBitsInput()">
-                    <option value="bit">1 Bit de Sincronismo</option>
-                    <option value="byte">1 Byte de Sincronismo</option>
-                </select>
-    
-                <button type="button" onclick="calculateTDM()">Calcular TDM</button>
-    
-                <div id="tdmResult" class="result hidden">
-                    <p><strong>Cantidad de Bits por Trama:</strong> <span id="tdmBitsPerFrame"></span></p>
-                    <p><strong>Duración de la Trama:</strong> <span id="tdmFrameDuration"></span> segundos</p>
-                    <p><strong>Tasa de Transmisión:</strong> <span id="tdmTransmissionRate"></span> bits/seg</p>
-                </div>
-    
-                <div class="formulas" class="result hidden">
-                    <h3>Fórmulas Utilizadas</h3>
-                    <p><strong>BitsPorTrama:</strong> NumeroDeCanales * BitsPorCanal + BitsDeSincronismo</p>
-                    <p><strong>DuracionTrama:</strong> BitsPorCanal / TasaDeLaFuente</p>
-                    <p><strong>TasaDeTransmision:</strong> BitsPorTrama / DuracionTrama</p>
-                </div>
-            </div>
-    
-            <!-- Formulario FDM -->
-            <div id="fdmForm" class="hidden">
-                <h1>Multiplexación FDM</h1>
-                <form id="fdmForm">
-                    <label for="numCanales">Número de canales:</label>
-                    <input type="number" id="numCanales" required>
-            
-                    <label for="anchoCanal">Ancho de banda de cada canal (kHz):</label>
-                    <input type="number" id="anchoCanal" required>
-            
-                    <label for="bandaGuarda">Banda de guarda entre canales (kHz):</label>
-                    <input type="number" id="bandaGuarda" required>
-            
-                    <label for="solucion">Seleccionar solución:</label>
-                    <select id="solucion">
-                        <option value="completa">Salvar completamente los canales extremos</option>
-                        <option value="mitad">Salvar la mitad de los canales extremos</option>
-                        <option value="nada">No salvar los canales extremos</option>
-                    </select>
-            
-                    <button type="button" onclick="calcularYGraficar()">Calcular y Graficar</button>
-                </form>
-            
-                <h2>Resultados</h2>
-                <div id="resultados"></div>
-                <canvas id="grafica" width="1400" height="400" class="w-100"></canvas>
-            
-                <div id="explicacion"></div>
-            
-                <script>
-                    function calcularYGraficar() {
-                        const numCanales = parseInt(document.getElementById("numCanales").value);
-                        const anchoCanal = parseInt(document.getElementById("anchoCanal").value);
-                        const bandaGuarda = parseInt(document.getElementById("bandaGuarda").value);
-                        const solucion = document.getElementById("solucion").value;
-            
-                        if (isNaN(numCanales) || isNaN(anchoCanal) || isNaN(bandaGuarda)) {
-                            alert("Por favor, ingrese valores válidos.");
-                            return;
-                        }
-            
-                        // Calcular ancho de banda de los canales en kHz
-                        const anchoBandadeCanales = numCanales * anchoCanal;
-            
-                        // Banda de guarda adicional según la solución
-                        let bandaGuardaAdicional = 0;
-                        switch (solucion) {
-                            case "completa":
-                                bandaGuardaAdicional = 2 * bandaGuarda;
-                                break;
-                            case "mitad":
-                                bandaGuardaAdicional = bandaGuarda;
-                                break;
-                            case "nada":
-                                bandaGuardaAdicional = 0;
-                                break;
-                        }
-            
-                        // Ancho de banda de guarda ajustado en kHz
-                        const anchoBandadeGuardaAjustado = ((numCanales - 1) * bandaGuarda) + bandaGuardaAdicional;
-            
-                        // Ancho de banda total en kHz
-                        const anchoBandaTotal = anchoBandadeCanales + anchoBandadeGuardaAjustado;
-            
-                        // Actualizar resultados en kHz
-                        const resultadosDiv = document.getElementById("resultados");
-                        resultadosDiv.innerHTML = `
-                            <p><strong>Ancho de banda de los canales:</strong> ${anchoBandadeCanales} kHz</p>
-                            <p><strong>Ancho de banda de guarda ajustado según la solución:</strong> ${anchoBandadeGuardaAjustado} kHz</p>
-                            <p><strong>Ancho de banda total:</strong> ${anchoBandaTotal} kHz</p>
-                        `;
-            
-                        // Graficar y mostrar explicaciones
-                        graficar(numCanales, anchoCanal, bandaGuarda, solucion);
-                        mostrarExplicacion(solucion);
-                    }
-            
-                    function graficar(numCanales, anchoCanal, bandaGuarda, solucion) {
-                        const canvas = document.getElementById("grafica");
-                        const ctx = canvas.getContext("2d");
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-                        const colores = ['#FF5733', '#FFC300', '#33FF57', '#33C1FF', '#AF33FF'];
-                        const centroY = 300;
-                        let inicioX = 50;
-            
-                        let bandaGuardaExtremos = 0;
-                        if (solucion === "completa") {
-                            bandaGuardaExtremos = bandaGuarda;
-                        } else if (solucion === "mitad") {
-                            bandaGuardaExtremos = bandaGuarda / 2;
-                        }
-            
-                        if (solucion !== "nada") {
-                            ctx.fillStyle = "gray";
-                            ctx.fillRect(inicioX - bandaGuardaExtremos, centroY - 15, bandaGuardaExtremos, 30);
-                            ctx.font = "12px Arial";
-                            ctx.fillStyle = "black";
-                            ctx.textAlign = "center";
-                            ctx.fillText(`${bandaGuardaExtremos} kHz`, inicioX - bandaGuardaExtremos / 2, centroY + 40);
-                        }
-            
-                        for (let i = 0; i < numCanales; i++) {
-                            const color = colores[i % colores.length];
-                            ctx.beginPath();
-                            ctx.arc(inicioX + anchoCanal / 2, centroY, anchoCanal / 2, Math.PI, 0);
-                            ctx.fillStyle = color;
-                            ctx.fill();
-                            ctx.strokeStyle = "black";
-                            ctx.lineWidth = 1;
-                            ctx.stroke();
-                            ctx.closePath();
-            
-                            ctx.font = "12px Arial";
-                            ctx.fillStyle = "black";
-                            ctx.textAlign = "center";
-                            ctx.fillText(`Canal ${i + 1}`, inicioX + anchoCanal / 2, centroY + 40);
-                            ctx.fillText(`${anchoCanal} kHz`, inicioX + anchoCanal / 2, centroY - 10);
-            
-                            if (i < numCanales - 1) {
-                                ctx.font = "12px Arial";
-                                ctx.fillStyle = "gray";
-                                ctx.textAlign = "center";
-                                ctx.fillText(`${bandaGuarda} kHz`, inicioX + anchoCanal + bandaGuarda / 2, centroY + 20);
-                            }
-            
-                            inicioX += anchoCanal + bandaGuarda;
-                        }
-            
-                        if (solucion !== "nada") {
-                            ctx.fillStyle = "gray";
-                            ctx.fillRect(inicioX, centroY - 15, bandaGuardaExtremos, 30);
-                            ctx.font = "12px Arial";
-                            ctx.fillStyle = "black";
-                            ctx.textAlign = "center";
-                            ctx.fillText(`${bandaGuardaExtremos} kHz`, inicioX + bandaGuardaExtremos / 2, centroY + 40);
-                        }
-                    }
-            
-                    function mostrarExplicacion(solucion) {
-                        const explicacionDiv = document.getElementById("explicacion");
-                        let explicacion = "";
-            
-                        switch (solucion) {
-                            case "completa":
-                                explicacion = "Se salvaguarda completamente los canales extremos, añadiendo banda de guarda extra en ambos lados.";
-                                break;
-                            case "mitad":
-                                explicacion = "Se salvaguarda parcialmente los canales extremos, añadiendo la mitad de la banda de guarda en ambos lados.";
-                                break;
-                            case "nada":
-                                explicacion = "No se añade banda de guarda adicional, los canales extremos no están salvaguardados.";
-                                break;
-                        }
-            
-                        explicacionDiv.innerHTML = `<p><strong>Explicación:</strong> ${explicacion}</p>`;
-                    }
-                </script>
-
-            </div>
+      <div class="container-fluid d-flex row justify-content-center">
+        <div class="w-50">
+          <h1>Calculadora de Multiplexación</h1>
+          <label for="multiplexType"
+            >Selecciona el tipo de multiplexación:</label
+          >
+          <select id="multiplexType" onchange="showForm()">
+            <option value="" selected disabled>Seleccionar...</option>
+            <option value="tdm">
+              TDM (Multiplexación por División de Tiempo)
+            </option>
+            <option value="fdm">
+              FDM (Multiplexación por División de Frecuencia)
+            </option>
+          </select>
         </div>
-    
+
+        <!-- Formulario TDM -->
+        <div id="tdmForm" class="hidden">
+          <h2>Multiplexación TDM Sincrónica</h2>
+          <label for="tdmNumChannels">Cantidad de Canales:</label>
+          <input type="number" id="tdmNumChannels" min="1" />
+
+          <label for="tdmSourceRate"
+            >Cantidad que Genera Cada Fuente (bps):</label
+          >
+          <input type="number" id="tdmSourceRate" min="1" />
+
+          <label for="tdmInterleaving">Tipo de Entrelazado:</label>
+          <select id="tdmInterleaving" onchange="toggleInterleavingBitsInput()">
+            <option value="bit">A Nivel de Bit</option>
+            <option value="byte">A Nivel de Byte</option>
+          </select>
+
+          <!-- Campo extra para los bits de sincronismo a nivel de bit -->
+          <div id="syncBitsContainer" class="hidden">
+            <label for="tdmSyncBits">Cantidad de Bits de Sincronismo:</label>
+            <input type="number" id="tdmSyncBits" min="1" value="1" />
+          </div>
+
+          <!-- Campo extra para los bits por fuente a nivel de bit -->
+          <div id="bitsPerSourceContainer" class="hidden">
+            <label for="tdmBitsPerSource"
+              >Cantidad de Bits por Fuente (Nivel de Bit):</label
+            >
+            <input type="number" id="tdmBitsPerSource" min="1" value="1" />
+          </div>
+
+          <label for="tdmSyncType">Tipo de Sincronismo:</label>
+          <select id="tdmSyncType" onchange="toggleSyncBitsInput()">
+            <option value="bit">1 Bit de Sincronismo</option>
+            <option value="byte">1 Byte de Sincronismo</option>
+          </select>
+
+          <button type="button" onclick="calculateTDM()">Calcular TDM</button>
+
+          <div id="tdmResult" class="result hidden">
+            <p>
+              <strong>Cantidad de Bits por Trama:</strong>
+              <span id="tdmBitsPerFrame"></span>
+            </p>
+            <p>
+              <strong>Duración de la Trama:</strong>
+              <span id="tdmFrameDuration"></span> segundos
+            </p>
+            <p>
+              <strong>Tasa de Transmisión:</strong>
+              <span id="tdmTransmissionRate"></span> bits/seg
+            </p>
+          </div>
+
+          <div class="formulas" class="result hidden">
+            <h3>Fórmulas Utilizadas</h3>
+            <p>
+              <strong>BitsPorTrama:</strong> NumeroDeCanales * BitsPorCanal +
+              BitsDeSincronismo
+            </p>
+            <p><strong>DuracionTrama:</strong> BitsPorCanal / TasaDeLaFuente</p>
+            <p>
+              <strong>TasaDeTransmision:</strong> BitsPorTrama / DuracionTrama
+            </p>
+          </div>
+        </div>
+
+        <!-- Formulario FDM -->
+        <div id="fdmForm" class="hidden">
+          <h1>Multiplexación FDM</h1>
+          <form id="fdmForm">
+            <label for="numCanales">Número de canales:</label>
+            <input type="number" id="numCanales" required />
+
+            <label for="anchoCanal">Ancho de banda de cada canal (kHz):</label>
+            <input type="number" id="anchoCanal" required />
+
+            <label for="bandaGuarda"
+              >Banda de guarda entre canales (kHz):</label
+            >
+            <input type="number" id="bandaGuarda" required />
+
+            <label for="solucion">Seleccionar solución:</label>
+            <select id="solucion">
+              <option value="completa">
+                Salvar completamente los canales extremos
+              </option>
+              <option value="mitad">
+                Salvar la mitad de los canales extremos
+              </option>
+              <option value="nada">No salvar los canales extremos</option>
+            </select>
+
+            <button type="button" onclick="calcularYGraficar()">
+              Calcular y Graficar
+            </button>
+          </form>
+
+          <h2>Resultados</h2>
+          <div id="resultados"></div>
+          <canvas id="grafica"></canvas>
+
+          <div id="explicacion"></div>
+
+          <script>
+            function calcularYGraficar() {
+              const numCanales = parseInt(
+                document.getElementById("numCanales").value
+              );
+              const anchoCanal = parseInt(
+                document.getElementById("anchoCanal").value
+              );
+              const bandaGuarda = parseInt(
+                document.getElementById("bandaGuarda").value
+              );
+              const solucion = document.getElementById("solucion").value;
+
+              if (
+                isNaN(numCanales) ||
+                isNaN(anchoCanal) ||
+                isNaN(bandaGuarda)
+              ) {
+                alert("Por favor, ingrese valores válidos.");
+                return;
+              }
+
+              const anchoBandadeCanales = numCanales * anchoCanal;
+              let bandaGuardaAdicional = 0;
+              switch (solucion) {
+                case "completa":
+                  bandaGuardaAdicional = 2 * bandaGuarda;
+                  break;
+                case "mitad":
+                  bandaGuardaAdicional = bandaGuarda;
+                  break;
+                case "nada":
+                  bandaGuardaAdicional = 0;
+                  break;
+              }
+
+              const anchoBandadeGuardaAjustado =
+                (numCanales - 1) * bandaGuarda + bandaGuardaAdicional;
+              const anchoBandaTotal =
+                anchoBandadeCanales + anchoBandadeGuardaAjustado;
+
+              const resultadosDiv = document.getElementById("resultados");
+              resultadosDiv.innerHTML = `
+                <p><strong>Ancho de banda de los canales:</strong> ${anchoBandadeCanales} kHz</p>
+                <p><strong>Ancho de banda de guarda ajustado según la solución:</strong> ${anchoBandadeGuardaAjustado} kHz</p>
+                <p><strong>Ancho de banda total:</strong> ${anchoBandaTotal} kHz</p>
+            `;
+
+              graficar(numCanales, anchoCanal, bandaGuarda, solucion);
+              mostrarExplicacion(solucion);
+            }
+
+            function graficar(numCanales, anchoCanal, bandaGuarda, solucion) {
+              const canvas = document.getElementById("grafica");
+              const ctx = canvas.getContext("2d");
+
+              // Ajustar tamaño del canvas dinámicamente
+              canvas.width = canvas.offsetWidth; // Ancho responsivo
+              canvas.height = 400; // Mantener proporciones
+
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+              const escalaX = canvas.width / 1400; // Escala para ancho original
+              const centroY = 200; // Mantener centro fijo
+
+              const colores = [
+                "#FF5733",
+                "#FFC300",
+                "#33FF57",
+                "#33C1FF",
+                "#AF33FF",
+              ];
+              let inicioX = 50 * escalaX;
+
+              let bandaGuardaExtremos = 0;
+              if (solucion === "completa") {
+                bandaGuardaExtremos = bandaGuarda;
+              } else if (solucion === "mitad") {
+                bandaGuardaExtremos = bandaGuarda / 2;
+              }
+
+              if (solucion !== "nada") {
+                ctx.fillStyle = "gray";
+                ctx.fillRect(
+                  inicioX - bandaGuardaExtremos * escalaX,
+                  centroY - 15,
+                  bandaGuardaExtremos * escalaX,
+                  30
+                );
+                ctx.textAlign = "center";
+                ctx.font = "12px Arial";
+                ctx.fillStyle = "black";
+                ctx.fillText(
+                  `${bandaGuardaExtremos} kHz`,
+                  inicioX - (bandaGuardaExtremos * escalaX) / 2,
+                  centroY + 40
+                );
+              }
+
+              // Mantener un tamaño fijo para los semicírculos
+              const radioFijo = 40; // Radio fijo en píxeles para los semicírculos
+              for (let i = 0; i < numCanales; i++) {
+                const color = colores[i % colores.length];
+
+                ctx.beginPath();
+                ctx.arc(inicioX + radioFijo, centroY, radioFijo, Math.PI, 0);
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                ctx.closePath();
+
+                ctx.font = "12px Arial";
+                ctx.fillStyle = "black";
+                ctx.textAlign = "center";
+                ctx.fillText(
+                  `Canal ${i + 1}`,
+                  inicioX + radioFijo,
+                  centroY + 40
+                );
+                ctx.fillText(
+                  `${anchoCanal} kHz`,
+                  inicioX + radioFijo,
+                  centroY - 10
+                );
+
+                inicioX += radioFijo * 2; // Avanzar la posición para el siguiente canal
+
+                if (i < numCanales - 1) {
+                  ctx.fillStyle = "gray";
+                  ctx.fillRect(
+                    inicioX,
+                    centroY - 15,
+                    bandaGuarda * escalaX,
+                    30
+                  );
+                  inicioX += bandaGuarda * escalaX;
+                }
+              }
+
+              if (solucion !== "nada") {
+                ctx.fillStyle = "gray";
+                ctx.fillRect(
+                  inicioX,
+                  centroY - 15,
+                  bandaGuardaExtremos * escalaX,
+                  30
+                );
+                ctx.font = "12px Arial";
+                ctx.fillStyle = "black";
+                ctx.textAlign = "center";
+                ctx.fillText(
+                  `${bandaGuardaExtremos} kHz`,
+                  inicioX + (bandaGuardaExtremos * escalaX) / 2,
+                  centroY + 40
+                );
+              }
+            }
+
+            function mostrarExplicacion(solucion) {
+              const explicacionDiv = document.getElementById("explicacion");
+              let explicacion = "";
+
+              switch (solucion) {
+                case "completa":
+                  explicacion =
+                    "Se salvaguarda completamente los canales extremos, añadiendo banda de guarda extra en ambos lados.";
+                  break;
+                case "mitad":
+                  explicacion =
+                    "Se salvaguarda parcialmente los canales extremos, añadiendo la mitad de la banda de guarda en ambos lados.";
+                  break;
+                case "nada":
+                  explicacion =
+                    "No se añade banda de guarda adicional, los canales extremos no están salvaguardados.";
+                  break;
+              }
+
+              explicacionDiv.innerHTML = `<p><strong>Explicación:</strong> ${explicacion}</p>`;
+            }
+
+            window.addEventListener("resize", calcularYGraficar);
+          </script>
+        </div>
+      </div>
     </main>
-    
+
     <script src="../js/multiplexacion.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
