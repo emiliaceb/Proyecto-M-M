@@ -20,7 +20,6 @@ nav a:hover {
 
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #f0f8ff, #e6e6fa);
     color: #333;
     text-align: center;
     padding: 20px;
@@ -73,56 +72,28 @@ footer {
     color: #777;
 }
 
-/* Estilo para la tabla de verdad */
-/* Centrar la tabla de verdad en la pantalla */
-#truthTable {
+/*Estilos de la tabla*/
+#truthTableContainer {
     display: flex;
-    justify-content: center; /* Centrado horizontal */
-    align-items: center;     /* Centrado vertical */
-    height: 30vh;           /* Ocupa toda la altura de la ventana */
-    margin: 20px;
+    justify-content: center;
+    margin-top: 20px;
 }
 
-#truthTable table {
-    width: 50%;              /* Ancho de la tabla, puedes ajustar según el tamaño deseado */
+/* Estilo para la tabla */
+table {
+    width: 50%; 
+    margin: auto;
     border-collapse: collapse;
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-#truthTable th, #truthTable td {
-    padding: 5px;
-    border: 1px solid #ddd;
     text-align: center;
-    font-size: 0.9em; /* Ajustar el tamaño de la fuente para que sea más compacto */
 }
 
-#truthTable th {
-    background-color: #4b6cb7;
-    color: white;
-    font-weight: bold;
+/* Estilo para las celdas de la tabla */
+th, td {
+    padding: 10px;
+    border: 1px solid gray !important
 }
 
-#truthTable td {
-    background-color: #f9f9f9;
-}
-
-#truthTable tr:nth-child(even) td {
-    background-color: #f2f2f2;
-}
-
-#truthTable td, #truthTable th {
-    color: #333;
-}
-
-@media (max-width: 768px) {
-    /* Ajustar la tabla para pantallas pequeñas */
-    #truthTable table {
-        width: 100%;
-    }
-
-    #truthTable th, #truthTable td {
-        font-size: 0.8em;
-        padding: 6px;
-    }
+/* Estilo para las cabeceras */
+th {
+    background-color: #f39c12;
 }

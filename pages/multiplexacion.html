@@ -101,49 +101,88 @@
               <strong>Eficiencia del sistema</strong>
               <span id="tdmEfficiency"></span>
             </p>
-
           </div>
 
           <div class="formulas" class="result hidden">
-           <h3 class="text-center">¿Como obtuvimos estos resultados?</h3>
-           <h4>Para obtener los <span>Bits por trama</span>:</h4>
+            <h3 class="text-center">¿Como obtuvimos estos resultados?</h3>
+            <h4>Para obtener los <span>Bits por trama</span>:</h4>
             <ol>
               <p>Debemos identificar:</p>
-              <li>Número de fuentes: El número de canales o fuentes que se multiplexan.</li>
-              <li>Tamaño de muestra de cada fuente: Número de bits que aporta cada fuente por trama.</li>
-              <li>Bits de control por trama (si los hay): Cualquier bit adicional usado para sincronización,</li>
-              <p>Finalmente utilizamos la formula: </p>
-              <img class="my-3" src="../img/formulabitsxtrama.png" alt="formula bits por trama">
+              <li>
+                Número de fuentes: El número de canales o fuentes que se
+                multiplexan.
+              </li>
+              <li>
+                Tamaño de muestra de cada fuente: Número de bits que aporta cada
+                fuente por trama.
+              </li>
+              <li>
+                Bits de control por trama (si los hay): Cualquier bit adicional
+                usado para sincronización,
+              </li>
+              <p>Finalmente utilizamos la formula:</p>
+              <img
+                class="my-3"
+                src="../img/formulabitsxtrama.png"
+                alt="formula bits por trama"
+              />
             </ol>
             <h4>Para obtener la <span>Duracion de la trama</span>:</h4>
             <p>Es el tiempo que toma transmitir una única trama completa.</p>
             <ol>
               <p>Utilizamos la formula:</p>
-              <img src="../img/duraciontrama.png" alt="formula de duracion de trama">
+              <img
+                src="../img/duraciontrama.png"
+                alt="formula de duracion de trama"
+              />
             </ol>
             <h4>Para obtener la <span>Tasa de Transmisión</span>:</h4>
             <ol>
               <p>Utilizamos la formula:</p>
-              <img src="../img/tasa de transmision.png" alt="formula de duracion de trama">
+              <img
+                src="../img/tasa de transmision.png"
+                alt="formula de duracion de trama"
+              />
             </ol>
             <h4>Para obtener la <span>Tasa de Trama</span>:</h4>
-            <p>La tasa de trama es la cantidad de tramas que se transmiten por segundo.</p>
+            <p>
+              La tasa de trama es la cantidad de tramas que se transmiten por
+              segundo.
+            </p>
             <ol>
               <p>Utilizamos la formula:</p>
-              <img src="../img/tasadetrama.png" alt="formula de duracion de trama">
+              <img
+                src="../img/tasadetrama.png"
+                alt="formula de duracion de trama"
+              />
             </ol>
             <h4>Para obtener los <span>Bits utiles por trama</span>:</h4>
             <h5>¿Qué son los bits útiles por trama?</h5>
-            <p>Los bits útiles por trama son los bits que contienen la información real que se transmite en una trama, excluyendo los bits adicionales de control, sincronización, o relleno. </p>
+            <p>
+              Los bits útiles por trama son los bits que contienen la
+              información real que se transmite en una trama, excluyendo los
+              bits adicionales de control, sincronización, o relleno.
+            </p>
             <ol>
               <p>Utilizamos la formula:</p>
-              <img src="../img/bitsutiles.png" alt="formula bits utiles por trama">
+              <img
+                src="../img/bitsutiles.png"
+                alt="formula bits utiles por trama"
+              />
             </ol>
             <h4>Para obtener la <span>Eficiencia del sistema</span>:</h4>
-            <p>La eficiencia del sistema mide qué porcentaje de los bits transmitidos en una trama son realmente útiles (es decir, contienen información de las fuentes de datos) en lugar de ser utilizados para control, sincronización, o relleno. </p>
+            <p>
+              La eficiencia del sistema mide qué porcentaje de los bits
+              transmitidos en una trama son realmente útiles (es decir,
+              contienen información de las fuentes de datos) en lugar de ser
+              utilizados para control, sincronización, o relleno.
+            </p>
             <ol>
               <p>Utilizamos la formula:</p>
-              <img src="../img/eficiencia.png" alt="formula eficiencia del sistema">
+              <img
+                src="../img/eficiencia.png"
+                alt="formula eficiencia del sistema"
+              />
             </ol>
           </div>
         </div>
@@ -184,7 +223,6 @@
           <canvas id="grafica"></canvas>
 
           <div id="explicacion"></div>
-
           <script>
             function calcularYGraficar() {
               const numCanales = parseInt(

@@ -14,30 +14,41 @@
         <a href=".//pages/modulacion.html">Modulacion</a>
         <a href="multiplexacion.html">Multiplexacion</a>
     </nav>
-
-    
     <main>
-        <header>Modulacion y Multiplexacion de Señales</header>
-        <p>Selecciona una modulación y proporciona una secuencia de bits para graficar:</p>
-        <div id="controls">
-            <select id="modulationSelect">
-                <option value="ask">ASK</option>
-                <option value="psk">PSK</option>
-                <option value="4ask">4ASK</option>
-                <option value="4psk">4PSK</option>
-                <option value="qam">QAM</option>
-                <option value="8qam">8QAM</option>
+       <section class="container d-flex justify-content-center ">
+        <div >
+            <label for="bits">Ingrese una secuencia de bits:</label>
+            <input type="text" id="bits" placeholder="Ejemplo: 10101001">
+          </div>
+          <div class="ms-3">
+            <label for="modulation">Seleccione el tipo de modulación:</label>
+            <select id="modulation" onchange="plot()">
+              <option value="ASK">ASK</option>
+              <option value="FSK">FSK</option>
+              <option value="PSK">PSK</option>
+              <option value="4ASK">4ASK</option>
+              <option value="4PSK">4PSK</option>
+              <option value="8QAM">8QAM</option>
+              <option value="QAM">QAM</option>
             </select>
-            <input type="text" id="bitSequence" placeholder="Ej: 1010101">
-            <button onclick="plotModulation()">Graficar</button>
+          </div>
+          <button class="ms-3" onclick="plot()">Graficar</button>
+       </section>
+       <div class="container">
+        <div class="chart-container" id="constellationContainer" style="display:none;">
+          <h2>Diagrama de Constelación</h2>
+          <canvas id="constellationChart"></canvas>
         </div>
-        <div id="constellation"></div>
-        <div id="truthTable"></div> <!-- Contenedor para la tabla de verdad -->
-        <div id="plot"></div>
-        
-    </main>
-    <footer>Comunicaciones 2024</footer>
+        <div id="truthTableContainer" style="display:none;"></div>
+        <div class="chart-container" id="modulationContainer" style="display:none;">
+          <h2>Señal Modulada</h2>
+          <canvas id="modulationChart"></canvas>
+        </div>
+       </div>
+      </main>
+    
     <script src="../js/modulacion.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
