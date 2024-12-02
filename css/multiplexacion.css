@@ -52,7 +52,7 @@ button:hover {
 }
 
 .result, .formulas {
-    background: #e7f3ff;
+    
     padding: 15px;
     border-radius: 8px;
     margin-top: 20px;
@@ -130,4 +130,13 @@ canvas {
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.div-teoria-FDM{
+    padding-left: 100px !important;
+    padding-right: 100px;
+}
+.div-teoria-TDM{
+    padding-left: 100px !important;
+    padding-right: 100px;
+    background-color: white;   
 }

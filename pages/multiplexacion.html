@@ -121,7 +121,7 @@
             </p>
           </div>
 
-          <div class="formulas" class="result hidden">
+          <div class="div-teoria-TDM" class="result hidden">
             <h3 class="text-center">¿Como obtuvimos estos resultados?</h3>
             <h4>Para obtener los <span>Bits por trama</span>:</h4>
             <ol>
@@ -207,7 +207,7 @@
 
         <!-- Formulario FDM -->
         <div id="fdmForm" class="hidden">
-          <h1>Multiplexación FDM</h1>
+          <h1 class="my-3">Multiplexación FDM</h1>
           <form id="fdmForm">
             <label for="numCanales">Número de canales:</label>
             <input type="number" id="numCanales" required />
@@ -231,16 +231,64 @@
               <option value="nada">No salvar los canales extremos</option>
             </select>
 
-            <button type="button" onclick="calcularYGraficar()">
+            <button class="my-3" type="button" onclick="calcularYGraficar()">
               Calcular y Graficar
             </button>
           </form>
 
-          <h2>Resultados</h2>
+          <h2 class="my-2">Resultados</h2>
           <div id="resultados"></div>
           <canvas id="grafica"></canvas>
-
           <div id="explicacion"></div>
+          <div class="div-teoria-FDM" class="result hidden">
+            <h3 class="text-center">¿Como obtuvimos estos resultados?</h3>
+            <h4>Datos de entrada:</h4>
+            <ul>
+              <li>Numero de canales: N</li>
+              <li>Ancho de banda de cada canal: Bc</li>
+              <li>Banda de guarda entre canales: Bg</li>
+            </ul>
+            <h3>Veamos los 3 casos de solucion: </h3>
+            <h4>Caso 1: <span> Salvar completamente los extremos</span>:</h4>
+            <ul>
+              <p> En este caso, se asigna banda de guarda adicional solo entre los canales internos, pero se deja el canal extremo sin modificar su banda de guarda.</p>
+              <li>
+               Ancho de banda ajustado:
+              </li>
+              <p> Se coloca una banda de guarda entre todos los canales, excepto en los extremos. Esto significa que los canales extremos no tienen banda de guarda a sus lados.</p>
+              <img src="../img/solucion11.png" alt="solucion1">
+              <li>
+                Ancho de banda total:
+              </li>
+              <img src="../img/bt1.png" alt="formula ancho de banda total">
+            </ul>
+            <h4>Caso 2: <span> Salvar la mitad de los canales externos</span>:</h4>
+            <ul>
+              <p> En este caso, se coloca una banda de guarda entre todos los canales, pero los canales extremos tienen menos banda de guarda, es decir, la mitad de la banda de guarda que los canales internos.</p>
+              <li>
+               Ancho de banda ajustado:
+              </li>
+              <img src="../img/solucion21.png" alt="solucion2">
+              <li>
+                Ancho de banda total: la formula sigue siendo la misma
+              </li>
+              <img src="../img/bt1.png" alt="formula ancho de banda total">
+            </ul>
+            <h4>Caso 3: <span> No salvar ninguno de los canales extremos</span>:</h4>
+            <ul>
+              <p> En este caso, no se asigna banda de guarda a los canales extremos. Esto significa que solo se aplica banda de guarda entre los canales internos.</p>
+              <li>
+               Ancho de banda ajustado:
+              </li>
+              <p>En este caso, solo hay banda de guarda entre los canales internos, por lo que la banda de guarda total es:</p>
+              <img src="../img/solucion31.png" alt="solucion3">
+              <li>
+                Ancho de banda total:
+              </li>
+              <img src="../img/bt3.png" alt="formula ancho de banda total">
+            </ul>
+          </div>
+        </div>
           <script>
             function calcularYGraficar() {
               const numCanales = parseInt(
