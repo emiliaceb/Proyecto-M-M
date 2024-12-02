@@ -13,11 +13,26 @@
     />
   </head>
   <body>
-    <nav>
-      <a href="../index.html">Inicio</a>
-      <a href="modulacion.html">Modulacion</a>
-      <a href=".//pages/multiplexacion.html">Multiplexacion</a>
-    </nav>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+          <a class="navbar-brand ms-3" href="../index.html">
+              <img class="logoUTN" src="../img/utn.png" alt="logo facultad"> Comunicaciones TFI
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse me-5" id="navbarNav">
+              <ul class="navbar-nav ms-auto"> 
+                  <li class="nav-item">
+                      <a class="nav-link fs-5" aria-current="page" href="./modulacion.html">Modulación</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active  ms-2 fs-5" href="multiplexacion.html">Multiplexación</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </nav>
     <main>
       <div class="container-fluid d-flex row justify-content-center">
         <div class="w-50">
@@ -410,7 +425,9 @@
         </div>
       </div>
     </main>
-
+    <footer>
+      <p class="text-center">© TRABAJO FINAL INTEGRADOR - COMUNICACIONES 2024 </p>
+  </footer>
     <script src="../js/multiplexacion.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
