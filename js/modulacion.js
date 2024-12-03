@@ -46,7 +46,7 @@
             const freq = symbol === 1 ? carrierFrequency + 0.5 : carrierFrequency - 0.5;
             value = Math.sin(2 * Math.PI * freq * t);
           } else if (modulation === "PSK") {
-            const phase = symbol === 1 ? 0 : Math.PI;
+            const phase = symbol === 0 ? 0 : Math.PI;
             value = Math.sin(2 * Math.PI * carrierFrequency * t + phase);
           } else if (modulation === "4ASK") {
             value = amplitudes[symbol] * Math.sin(2 * Math.PI * carrierFrequency * t);
